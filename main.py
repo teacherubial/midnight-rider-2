@@ -26,6 +26,8 @@ REACH THE END BEFORE THE MAN GON GETCHU.
 
 CHOICES = """
     ----
+    A. Eat some tofu.
+    B. Continue ahead at a moderate speed.
     C. Speed ahead a full throttle.
     D. Stop for fuel at a refuelling station.
        (No food available)
@@ -70,7 +72,38 @@ def main():
         # Handle user's input
         users_choice = input("What do you want to do? ").lower().strip("!,.? ")
 
-        if users_choice == "c":
+        if users_choice == "a":
+            # Eat
+            if tofu > 0:
+                tofu -= 1
+                hunger = 0
+                print()
+                print("-------- Mmmmmmm. Soybean goodness.")
+                print("-------- Your hunger is sated.")
+                print()
+            else:
+                print()
+                print("-------- You have none left.")
+                print()
+        elif users_choice == "b":
+            # Drive slow
+            player_distance_now = random.randrange(7, 15)
+            agents_distance_now = random.randrange(7, 15)
+
+            # Burn fuel
+            fuel -= random.randrange(2, 7)
+
+            # Player distance traveled
+            km_traveled += player_distance_now
+
+            # Agent's distance traveled
+            agents_distance -= (player_distance_now - agents_distance_now)
+
+            # Feedback to Player
+            print()
+            print(f"-------- You travelved {player_distance_now} kms!")
+            print()
+        elif users_choice == "c":
             # Drive Fast
             player_distance_now = random.randrange(10, 16)
             agents_distance_now = random.randrange(7, 15)
@@ -110,6 +143,10 @@ def main():
             print("\t------\n")
         elif users_choice == "q":
             done = True
+
+        # Increase hunger
+        if users_choice not in ["a", "e"]:
+            hunger += random.randrange(5, 13)
 
         # Pause
         time.sleep(1)
