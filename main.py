@@ -46,6 +46,22 @@ You've seen it before, but only on TV.
 ------ Game Over ------
 """
 
+LOSE_HUNGER = """
+
+YOUR STOMACH IS EMPTY.
+WHO KNEW THAT WHAT THE DOCTOR SAID WAS TRUE,
+THAT HUMAN/ROBOT HYBRIDS WOULD NEED
+TOFU TO SUSTAIN THEMSELVES.
+YOUR ROBOT SYSTEMS START TO SHUT DOWN.
+YOUR HUMAN EYES CLOSE.
+THE LAST THING THAT YOU HEAR ARE SIRENS.
+THEY GOTCHU. THEY GOT THE CAR.
+WE FAILED...
+
+
+------ GAME OVER ------
+"""
+
 CHOICES = """
     ----
     A. Eat some tofu.
@@ -69,33 +85,58 @@ def type_text_output(text):
 
 
 def main():
-    type_text_output(INTRODUCTION)
+    # type_text_output(INTRODUCTION)
 
     # CONSTANTS
     MAX_FUEL_LEVEL = 50
     MAX_TOFU_LEVEL = 3
     MAX_DISTANCE_TRAVELED = 100
+    TOFU_CHANCE = 0.03
 
     # Variables
     done = False
 
-    km_traveled = 99
+    km_traveled = 0
     agents_distance = -20.0
     turns = 0
     tofu = MAX_TOFU_LEVEL
     fuel = MAX_FUEL_LEVEL
-    hunger = 0
+    hunger = 21
 
     while not done:
+        # TODO: Random events
+        # Fido
+        if random.random() < TOFU_CHANCE:
+            # Fido pops up says something and refills tofu
+            tofu = MAX_TOFU_LEVEL
+            print()
+            print("******** Your tofu is magically refilled!")
+            print("******** \"You're welcome!\" a voice says.")
+            print("******** It's Fido.")
+            print("******** He's using his tofu cooking skills.")
+
         # Check if reached END GAME
         if km_traveled > MAX_DISTANCE_TRAVELED:
             # WIN
             # Print win scenario (typing way)
             time.sleep(2)
             type_text_output(WIN)
-
-            # Break from while loop
             break
+        elif hunger > 45:
+            # LOSE - TOO HUNGRY
+            # Print losing hunger scenario
+            time.sleep(2)
+            type_text_output(LOSE_HUNGER)
+            break
+        elif agents_distance >= 0:
+            # LOSE - AGENTS REACHED YOU
+            pass
+
+        # Showing hunger
+        if hunger > 35:
+            print("******** Your stomach rumbles. You need to eat something soon.")
+        elif hunger > 20:
+            print("******** Your hunger is small but manageable.")
 
         # Give the player their choices
         print(CHOICES)
